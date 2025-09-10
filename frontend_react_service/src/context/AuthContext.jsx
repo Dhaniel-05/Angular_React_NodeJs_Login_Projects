@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import * as authService from "../api/authService"; // Servicio de autenticación (debe contener llamadas a la API)
+import * as authService from "../services/authService"; // Servicio de autenticación (debe contener llamadas a la API)
 
 const AuthContext = createContext(); // Crar Contexto inicial vacío 
 
