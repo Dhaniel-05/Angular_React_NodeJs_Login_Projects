@@ -36,7 +36,7 @@ class AuthController {
       const token = jwt.sign(
         { id: usuario.id_usuario, rol: usuario.id_rol },
         'secreto_super_seguro',
-        { expiresIn: '8h' }
+        { expiresIn: '2h' }
       );
 
       res.json({

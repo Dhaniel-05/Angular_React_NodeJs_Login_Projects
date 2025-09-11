@@ -1,0 +1,52 @@
+.login-formulario{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    width: 300px;
+}
+
+.login-input{
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+}
+.login-label{
+    margin-bottom: 10px;
+}
+
+.btn-login{
+    padding: 10px 20px;
+    background-color: rgb(17, 161, 194);
+    color: white;
+    border-radius: 5px;
+}
+
+.btn-login:hover{
+    background-color: #0a7b8a;
+}
+.btn-login:active{
+    background-color: #3e8e41;
+}
+.btn-login:focus{
+    outline: none;
+}
+
+.login-texto {
+    margin-top: 15px;
+    font-size: 14px;
+    text-align: center;
+    }
+
+    .login-enlace {
+    color: rgb(17, 161, 194);
+    font-weight: bold;
+    text-decoration: none;
+    }
+
+    .login-enlace:hover {
+    text-decoration: underline;
+}

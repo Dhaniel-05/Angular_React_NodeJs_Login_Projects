@@ -1,0 +1,76 @@
+.registro-contenedor {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    width: 350px;
+    padding: 20px;
+    }
+
+    .registro-titulo {
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+    color: #222;
+    text-align: center;
+    }
+
+    .registro-formulario {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    }
+
+    .registro-grupo {
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+    }
+
+    .registro-etiqueta {
+    margin-bottom: 8px;
+    font-weight: bold;
+    font-size: 0.9rem;
+    }
+
+    .registro-entrada,
+    .registro-select {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+    }
+
+    .registro-boton {
+    padding: 10px 20px;
+    background-color: rgb(17, 161, 194);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    }
+
+    .registro-boton:hover {
+    background-color: #0a7b8a;
+    }
+
+    .registro-boton:active {
+    background-color: #3e8e41;
+    }
+
+    .registro-boton:focus {
+    outline: none;
+    }
+
+    .registro-error {
+    color: red;
+    margin-top: 10px;
+    text-align: center;
+    }
+
+    .registro-exito {
+    color: green;
+    margin-top: 10px;
+    text-align: center;
+}
