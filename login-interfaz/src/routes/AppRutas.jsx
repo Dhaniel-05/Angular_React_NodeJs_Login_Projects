@@ -1,4 +1,3 @@
-// src/routes/AppRouter.jsx
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useAuthContext } from "../context/AuthContext";
 import { Login } from "../components/login/Login";

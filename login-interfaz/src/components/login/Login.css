@@ -23,6 +23,7 @@
     background-color: rgb(17, 161, 194);
     color: white;
     border-radius: 5px;
+    border: 1px;
 }
 
 .btn-login:hover{
