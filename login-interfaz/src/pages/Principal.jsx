@@ -1,26 +1,231 @@
+// import { useAuthContext } from "../context/AuthContext";
+// import { useState, useEffect } from "react";
+// import { ModalRol } from "../components/ui/ModalRol";
+// import { 
+//   leerUsuarios, 
+//   eliminarUsuario, 
+//   actualizarUsuario, 
+//   crearUsuario 
+// } from "../services/usuarioService";
+// import { leerRoles, crearRol, actualizarRol, eliminarRol } from "../services/rolService";
+
+
+// export const Principal = () => {
+//   const [openModal, setOpenModal] = useState(null);
+//   const [selectedUser, setSelectedUser] = useState(null);
+//   const [usuarios, setUsuarios] = useState([]);
+//   const { user, logout } = useAuthContext();
+
+//   useEffect(() => {
+//     fetchUsuarios();
+//     fetchRoles(); // cargar roles
+//   }, []);
+
+//   const fetchUsuarios = async () => {
+//     try {
+//       const data = await leerUsuarios();
+//       setUsuarios(data);
+//     } catch (error) {
+//       console.error(error);
+//     }
+//   };
+
+//   const handleEdit = (usuario) => {
+//     setSelectedUser(usuario);
+//     setOpenModal("editarUsuario");
+//   };
+
+//   const handleSave = async (usuarioData) => {
+//     try {
+//       if (openModal === "editarUsuario") {
+//         await actualizarUsuario(usuarioData.id_usuario, usuarioData);
+//       } else if (openModal === "crearUsuario") {
+//         await crearUsuario(usuarioData);
+//       }
+
+//       await fetchUsuarios(); // refrescar listado
+//       setOpenModal(null);
+//       setSelectedUser(null);
+//     } catch (error) {
+//       console.error("Error guardando usuario:", error);
+//       alert("No se pudo guardar el usuario.");
+//     }
+//   };
+
+//   const [roles, setRoles] = useState([]);
+// const [rolSeleccionado, setRolSeleccionado] = useState(null);
+
+// const fetchRoles = async () => {
+//   try {
+//     const data = await leerRoles();
+//     setRoles(data);
+//   } catch (error) {
+//     console.error("Error al cargar roles:", error);
+//   }
+// };
+
+// const handleSaveRol = async (rolData) => {
+//   try {
+//     if (rolSeleccionado) {
+//       await actualizarRol(rolData.id_rol, rolData);
+//     } else {
+//       await crearRol(rolData);
+//     }
+//     await fetchRoles();
+//     setOpenModal(null);
+//     setRolSeleccionado(null);
+//   } catch (error) {
+//     alert("No se pudo guardar el rol.");
+//   }
+// };
+
+// const handleEditRol = (rol) => {
+//   setRolSeleccionado(rol);
+//   setOpenModal("rol");
+// };
+
+//   return (
+//     <div>
+//       <h1>Bienvenido {user?.nombre}</h1>
+//       <p>Rol: {user?.rol}</p>
+//       <button onClick={logout}>Cerrar sesión</button>
+
+//       <h1 className="text-2xl font-bold mb-4">Gestión de Usuarios</h1>
+
+//       <table className="w-full border">
+//         <thead>
+//           <tr className="bg-gray-200">
+//             <th className="p-2 border">ID</th>
+//             <th className="p-2 border">Nombre</th>
+//             <th className="p-2 border">Email</th>
+//             <th className="p-2 border">Rol</th>
+//             <th className="p-2 border">Acciones</th>
+//           </tr>
+//         </thead>
+//         <tbody>
+//           {usuarios.length > 0 ? (
+//             usuarios.map((u) => (
+//               <tr key={u.id_usuario}>
+//                 <td className="p-2 border">{u.id_usuario}</td>
+//                 <td className="p-2 border">{u.nombre}</td>
+//                 <td className="p-2 border">{u.email}</td>
+//                 <td className="p-2 border">{u.rol}</td>
+//                 <td className="p-2 border space-x-2">
+//                   <button
+//                     onClick={() => handleEdit(u)}
+//                     className="btn btn-sm bg-yellow-500 text-white"
+//                   >
+//                     Editar
+//                   </button>
+//                   <button
+//                     onClick={() => eliminarUsuario(u.id_usuario).then(fetchUsuarios)}
+//                     className="btn btn-sm bg-red-500 text-white"
+//                   >
+//                     Eliminar
+//                   </button>
+//                 </td>
+//               </tr>
+//             ))
+//           ) : (
+//             <tr>
+//               <td className="p-2 border text-center" colSpan="5">
+//                 No hay usuarios registrados
+//               </td>
+//             </tr>
+//           )}
+//         </tbody>
+//       </table>
+
+//       {/* Botón para roles */}
+// <button onClick={() => setOpenModal("rol")} className="btn">
+//   Crear Rol
+// </button>
+
+// {/* Tabla de roles */}
+// <table className="w-full border mt-4">
+//   <thead>
+//     <tr className="bg-gray-200">
+//       <th className="p-2 border">ID</th>
+//       <th className="p-2 border">Nombre</th>
+//       <th className="p-2 border">Acciones</th>
+//     </tr>
+//   </thead>
+//   <tbody>
+//     {roles.map((r) => (
+//       <tr key={r.id_rol}>
+//         <td className="p-2 border">{r.id_rol}</td>
+//         <td className="p-2 border">{r.nombre}</td>
+//         <td className="p-2 border space-x-2">
+//           <button
+//             onClick={() => handleEditRol(r)}
+//             className="btn btn-sm bg-yellow-500 text-white"
+//           >
+//             Editar
+//           </button>
+//           <button
+//             onClick={() => eliminarRol(r.id_rol).then(fetchRoles)}
+//             className="btn btn-sm bg-red-500 text-white"
+//           >
+//             Eliminar
+//           </button>
+//         </td>
+//       </tr>
+//     ))}
+//   </tbody>
+// </table>
+
+// {/* Modal para roles */}
+// {openModal === "rol" && (
+//   <ModalRol
+//     onClose={() => {
+//       setOpenModal(null);
+//       setRolSeleccionado(null);
+//     }}
+//     onSave={handleSaveRol}
+//     rolSeleccionado={rolSeleccionado}
+//   />
+// )}
+//     </div>
+//   );
+// };
 import { useAuthContext } from "../context/AuthContext";
 import { useState, useEffect } from "react";
-import { Modal } from "../components/ui/Modal";
-import { 
-  leerUsuarios, 
-  eliminarUsuario, 
-  actualizarUsuario, 
-  crearUsuario 
+import { ModalRol } from "../components/ui/ModalRol";
+import { ModalUsuario } from "../components/ui/ModalUsuario";
+
+import {
+  leerUsuarios,
+  eliminarUsuario,
+  actualizarUsuario,
+  crearUsuario,
 } from "../services/usuarioService";
-import { leerRoles } from "../services/rolService"; // 👈 importar servicio de roles
+import {
+  leerRoles,
+  crearRol,
+  actualizarRol,
+  eliminarRol,
+} from "../services/rolService";
 
 export const Principal = () => {
-  const [openModal, setOpenModal] = useState(null);
-  const [selectedUser, setSelectedUser] = useState(null);
-  const [usuarios, setUsuarios] = useState([]);
-  const [roles, setRoles] = useState([]); // 👈 estado para roles
   const { user, logout } = useAuthContext();
+
+  // Usuarios
+  const [usuarios, setUsuarios] = useState([]);
+  const [usuarioSeleccionado, setUsuarioSeleccionado] = useState(null);
+
+  // Roles
+  const [roles, setRoles] = useState([]);
+  const [rolSeleccionado, setRolSeleccionado] = useState(null);
+
+  // Control de modal abierto
+  const [openModal, setOpenModal] = useState(null);
 
   useEffect(() => {
     fetchUsuarios();
-    fetchRoles(); // 👈 cargar roles
+    fetchRoles();
   }, []);
 
+  // --- USUARIOS ---
   const fetchUsuarios = async () => {
     try {
       const data = await leerUsuarios();
@@ -30,35 +235,54 @@ export const Principal = () => {
     }
   };
 
+  const handleSaveUsuario = async (usuarioData) => {
+    try {
+      if (usuarioSeleccionado) {
+        await actualizarUsuario(usuarioData.id_usuario, usuarioData);
+      } else {
+        await crearUsuario(usuarioData);
+      }
+      await fetchUsuarios();
+      setOpenModal(null);
+      setUsuarioSeleccionado(null);
+    } catch (error) {
+      alert("No se pudo guardar el usuario.");
+    }
+  };
+
+  const handleEditUsuario = (usuario) => {
+    setUsuarioSeleccionado(usuario);
+    setOpenModal("usuario");
+  };
+
+  // --- ROLES ---
   const fetchRoles = async () => {
     try {
       const data = await leerRoles();
-      setRoles(data); // guardar roles en estado
+      setRoles(data);
     } catch (error) {
       console.error("Error al cargar roles:", error);
     }
   };
 
-  const handleEdit = (usuario) => {
-    setSelectedUser(usuario);
-    setOpenModal("editarUsuario");
+  const handleSaveRol = async (rolData) => {
+    try {
+      if (rolSeleccionado) {
+        await actualizarRol(rolData.id_rol, rolData);
+      } else {
+        await crearRol(rolData);
+      }
+      await fetchRoles();
+      setOpenModal(null);
+      setRolSeleccionado(null);
+    } catch (error) {
+      alert("No se pudo guardar el rol.");
+    }
   };
 
-  const handleSave = async (usuarioData) => {
-    try {
-      if (openModal === "editarUsuario") {
-        await actualizarUsuario(usuarioData.id_usuario, usuarioData);
-      } else if (openModal === "crearUsuario") {
-        await crearUsuario(usuarioData);
-      }
-
-      await fetchUsuarios(); // refrescar listado
-      setOpenModal(null);
-      setSelectedUser(null);
-    } catch (error) {
-      console.error("Error guardando usuario:", error);
-      alert("No se pudo guardar el usuario.");
-    }
+  const handleEditRol = (rol) => {
+    setRolSeleccionado(rol);
+    setOpenModal("rol");
   };
 
   return (
@@ -67,16 +291,13 @@ export const Principal = () => {
       <p>Rol: {user?.rol}</p>
       <button onClick={logout}>Cerrar sesión</button>
 
+      {/* ------------------ USUARIOS ------------------ */}
       <h1 className="text-2xl font-bold mb-4">Gestión de Usuarios</h1>
 
-      {/* Botones */}
-      <div className="flex gap-2 mb-4">
-        <button onClick={() => setOpenModal("crearRol")} className="btn">Crear Rol</button>
-        <button onClick={() => setOpenModal("asignarPermiso")} className="btn">Otorgar Permisos</button>
-        <button onClick={() => setOpenModal("crearUsuario")} className="btn">Crear Usuario</button>
-      </div>
+      <button onClick={() => setOpenModal("usuario")} className="btn mb-2">
+        Crear Usuario
+      </button>
 
-      {/* Tabla de usuarios */}
       <table className="w-full border">
         <thead>
           <tr className="bg-gray-200">
@@ -97,13 +318,15 @@ export const Principal = () => {
                 <td className="p-2 border">{u.rol}</td>
                 <td className="p-2 border space-x-2">
                   <button
-                    onClick={() => handleEdit(u)}
+                    onClick={() => handleEditUsuario(u)}
                     className="btn btn-sm bg-yellow-500 text-white"
                   >
                     Editar
                   </button>
                   <button
-                    onClick={() => eliminarUsuario(u.id_usuario).then(fetchUsuarios)}
+                    onClick={() =>
+                      eliminarUsuario(u.id_usuario).then(fetchUsuarios)
+                    }
                     className="btn btn-sm bg-red-500 text-white"
                   >
                     Eliminar
@@ -121,24 +344,66 @@ export const Principal = () => {
         </tbody>
       </table>
 
-      {/* Modal dinámico */}
-      {openModal && (
-        <Modal
-          type={openModal}
-          isOpen={!!openModal}
+      {/* ------------------ ROLES ------------------ */}
+      <h1 className="text-2xl font-bold mt-8 mb-4">Gestión de Roles</h1>
+
+      <button onClick={() => setOpenModal("rol")} className="btn mb-2">
+        Crear Rol
+      </button>
+
+      <table className="w-full border">
+        <thead>
+          <tr className="bg-gray-200">
+            <th className="p-2 border">ID</th>
+            <th className="p-2 border">Nombre</th>
+            <th className="p-2 border">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {roles.map((r) => (
+            <tr key={r.id_rol}>
+              <td className="p-2 border">{r.id_rol}</td>
+              <td className="p-2 border">{r.nombre}</td>
+              <td className="p-2 border space-x-2">
+                <button
+                  onClick={() => handleEditRol(r)}
+                  className="btn btn-sm bg-yellow-500 text-white"
+                >
+                  Editar
+                </button>
+                <button
+                  onClick={() => eliminarRol(r.id_rol).then(fetchRoles)}
+                  className="btn btn-sm bg-red-500 text-white"
+                >
+                  Eliminar
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+      {/* ------------------ MODALES ------------------ */}
+      {openModal === "usuario" && (
+        <ModalUsuario
           onClose={() => {
             setOpenModal(null);
-            setSelectedUser(null);
+            setUsuarioSeleccionado(null);
           }}
-          title={
-            openModal === "editarUsuario" ? "Editar Usuario" :
-            openModal === "crearUsuario" ? "Crear Usuario" :
-            openModal === "crearRol" ? "Crear Rol" :
-            openModal === "asignarPermiso" ? "Otorgar Permisos" : ""
-          }
-          data={selectedUser}
-          onSave={handleSave}
-          roles={roles}   // 👈 aquí pasamos los roles dinámicos
+          onSave={handleSaveUsuario}
+          usuarioSeleccionado={usuarioSeleccionado}
+          roles={roles}
+        />
+      )}
+
+      {openModal === "rol" && (
+        <ModalRol
+          onClose={() => {
+            setOpenModal(null);
+            setRolSeleccionado(null);
+          }}
+          onSave={handleSaveRol}
+          rolSeleccionado={rolSeleccionado}
         />
       )}
     </div>

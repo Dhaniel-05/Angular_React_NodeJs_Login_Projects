@@ -6,7 +6,7 @@ export const leerPermisos = async () => {
     return res.json();
     };
 
-    export const crearPermiso = async (permiso) => {
+export const crearPermiso = async (permiso) => {
     const res = await fetch(API_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -14,4 +14,20 @@ export const leerPermisos = async () => {
     });
     if (!res.ok) throw new Error("Error al crear permiso");
     return res.json();
-};
+    };
+
+export const actualizarPermiso = async (id, data) => {
+    const res = await fetch(`${API_URL}/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+    });
+    if (!res.ok) throw new Error("Error al actualizar permiso");
+    return res.json();
+    };
+
+export const eliminarPermiso = async (id) => {
+    const res = await fetch(`${API_URL}/${id}`, { method: "DELETE" });
+    if (!res.ok) throw new Error("Error al eliminar permiso");
+    return res.json();
+    };

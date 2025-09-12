@@ -16,18 +16,18 @@ export const crearPermiso = async (idRol, idPermiso) => {
     return res.json();
     };
 
-export const actualizarPermiso = async (idRolPermiso) => {
-    const res = await fetch(`${API_URL}/${idRolPermiso}`, {
-        method: "DELETE",
+export const actualizarRolPermiso = async (id, data) => {
+    const res = await fetch(`${API_URL}/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
     });
-    if (!res.ok) throw new Error("Error al quitar permiso");
+    if (!res.ok) throw new Error("Error al actualizar rol-permiso");
     return res.json();
-};
+    };
 
-export const eliminarPermiso = async (idRolPermiso) => {
-    const res = await fetch(`${API_URL}/${idRolPermiso}`, {
-        method: "DELETE",
-    });
-    if (!res.ok) throw new Error("Error al quitar permiso");
+export const eliminarRolPermiso = async (id) => {
+    const res = await fetch(`${API_URL}/${id}`, { method: "DELETE" });
+    if (!res.ok) throw new Error("Error al eliminar permiso del rol");
     return res.json();
 };
