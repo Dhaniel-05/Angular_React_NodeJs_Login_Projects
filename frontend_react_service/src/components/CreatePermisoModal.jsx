@@ -1,7 +1,7 @@
 import { useState } from "react";
 import CreateRoleModal from "../components/CreateRoleModal";
 import CreatePermisoModal from "../components/CreatePermisoModal";
-import { getRoles } from "../services/roleService";
+import { leerRoles } from "../services/roleService";
 import { createPermiso } from "../services/permisoService";
 import axios from "axios";
 

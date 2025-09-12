@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { registroRequest } from "../../services/usuarioService";
+import { crearUsuario } from "../../services/usuarioService";
 import { Link , useNavigate } from "react-router-dom";
 import "./Registro.css";
 
@@ -26,14 +26,14 @@ export const Registro = () => {
         e.preventDefault();
 
         try {
-        const data = await registroRequest(formData);
+        const data = await crearUsuario(formData);
         setSuccess("Usuario registrado correctamente");
         setError(null);
         console.log("Nuevo usuario:", data);
 
         // limpiar formulario
         setFormData({ nombre: "", email: "", clave: "", id_rol: "" });
-             // redirigir al login tras 1s (opcional mostrar mensaje antes)
+             // redirigir al login tras realizar el registro
             setTimeout(() => {
                 navigate("/"); // "/" es el login
             }, 1000);
