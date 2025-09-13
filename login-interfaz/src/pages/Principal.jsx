@@ -2,6 +2,7 @@ import { useAuthContext } from "../context/AuthContext";
 import { useState, useEffect } from "react";
 import { ModalRol } from "../components/ui/ModalRol";
 import { ModalUsuario } from "../components/ui/ModalUsuario";
+import { ModalPermiso } from "../components/ui/ModalPermiso";
 
 import {
   leerUsuarios,
@@ -9,12 +10,21 @@ import {
   actualizarUsuario,
   crearUsuario,
 } from "../services/usuarioService";
+
 import {
   leerRoles,
   crearRol,
   actualizarRol,
   eliminarRol,
 } from "../services/rolService";
+
+import { 
+  leerPermisos, 
+  crearPermiso, 
+  actualizarPermiso, 
+  eliminarPermiso 
+} from "../services/permisoService";
+
 
 export const Principal = () => {
   const { user, logout } = useAuthContext();
@@ -27,12 +37,17 @@ export const Principal = () => {
   const [roles, setRoles] = useState([]);
   const [rolSeleccionado, setRolSeleccionado] = useState(null);
 
+  // Permisos
+  const [permisos, setPermisos] = useState([]);
+  const [permisoSeleccionado, setPermisoSeleccionado] = useState(null);
+  
   // Control de modal abierto
   const [openModal, setOpenModal] = useState(null);
 
   useEffect(() => {
     fetchUsuarios();
     fetchRoles();
+    fetchPermisos();
   }, []);
 
   // --- USUARIOS ---
@@ -94,6 +109,37 @@ export const Principal = () => {
     setRolSeleccionado(rol);
     setOpenModal("rol");
   };
+
+  // -- Permisos --
+
+  const fetchPermisos = async () => {
+  try {
+    const data = await leerPermisos();
+    setPermisos(data);
+  } catch (error) {
+    console.error("Error al cargar permisos:", error);
+  }
+};
+
+const handleSavePermiso = async (permisoData) => {
+  try {
+    if (permisoSeleccionado) {
+      await actualizarPermiso(permisoData.id_permiso, permisoData);
+    } else {
+      await crearPermiso(permisoData);
+    }
+    await fetchPermisos();
+    setOpenModal(null);
+    setPermisoSeleccionado(null);
+  } catch (error) {
+    alert("No se pudo guardar el permiso.");
+  }
+};
+
+const handleEditPermiso = (permiso) => {
+  setPermisoSeleccionado(permiso);
+  setOpenModal("permiso");
+};
 
   return (
     <div>
@@ -193,6 +239,48 @@ export const Principal = () => {
         </tbody>
       </table>
 
+      {/* ------------------ ROLES ------------------ */}
+      <h1 className="text-2xl font-bold mt-8 mb-4">Gestión de Permisos</h1>
+
+      <button onClick={() => setOpenModal("permiso")} className="btn mb-2">
+        Crear Permiso
+      </button>
+
+      <table className="w-full border">
+        <thead>
+          <tr className="bg-gray-200">
+            <th className="p-2 border">ID</th>
+            <th className="p-2 border">Nombre</th>
+            <th className="p-2 border">Descripción</th>
+            <th className="p-2 border">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {permisos.map((p) => (
+            <tr key={p.id_permiso}>
+              <td className="p-2 border">{p.id_permiso}</td>
+              <td className="p-2 border">{p.nombre}</td>
+              <td className="p-2 border">{p.descripcion}</td>
+              <td className="p-2 border space-x-2">
+                <button
+                  onClick={() => handleEditPermiso(p)}
+                  className="btn btn-sm bg-yellow-500 text-white"
+                >
+                  Editar
+                </button>
+                <button
+                  onClick={() => eliminarPermiso(p.id_permiso).then(fetchPermisos)}
+                  className="btn btn-sm bg-red-500 text-white"
+                >
+                  Eliminar
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      
+
       {/* ------------------ MODALES ------------------ */}
       {openModal === "usuario" && (
         <ModalUsuario
@@ -216,6 +304,18 @@ export const Principal = () => {
           rolSeleccionado={rolSeleccionado}
         />
       )}
+
+      {openModal === "permiso" && (
+      <ModalPermiso
+        onClose={() => {
+          setOpenModal(null);
+          setPermisoSeleccionado(null);
+        }}
+        onSave={handleSavePermiso}
+        permisoSeleccionado={permisoSeleccionado}
+      />
+    )}
+
     </div>
   );
 };
